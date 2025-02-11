@@ -1,0 +1,91 @@
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Store Application</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="logOut()">Logout</a>
+        </li>
+        <li *ngIf="isUserAuthenticated()" class="nav-item active">
+            <a class="nav-link" routerLink="/product">Stores</a>
+          </li>
+        <li *ngIf="!isUserAuthenticated()" class="nav-item active">
+          <a class="nav-link" routerLink="/store">Stores</a>
+        </li>
+        <li *ngIf="!isUserAuthenticated()" class="nav-item active">
+          <a class="nav-link" routerLink="/product">Stores</a>
+        </li>
+        <li *ngIf="!isUserAuthenticated()" class="nav-item active">
+          <a class="nav-link" routerLink="/client">Clients</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <form class="form-horizontal" [formGroup]="storeForm">
+      <h1 style="text-align: center;">Stores</h1>
+      <div>
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd">StoreName:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="txtStoreName" formControlName="StoreName"
+            placeholder="Name of Store">
+        </div>
+      </div>
+      <br />
+      <div class="form-group">
+        <label class="control-label col-sm-2" for="pwd">Store Address:</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="txtAddress" formControlName="Address" placeholder="Address of Store">
+        </div>
+      </div>
+      <br />
+       <div class="form-group">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <button type="submit" class="btn btn-primary" (click)="PostStore(storeForm.value)">Submit</button> 
+            </div>
+            <div class="col-sm">
+              <button type="submit" class="btn btn-primary" (click)="UpdateStore(storeForm.value)">Update</button>
+            </div>
+            <div class="col-sm">
+              <button type="submit" class="btn btn-primary" (click)="Clear(storeForm.value)">Clear</button>
+            </div>
+          </div>
+        </div>
+      <br />
+      </div>
+      <div>
+        <div class="alert alert-success" style="text-align: center;"><b>Store List</b></div>
+        <div class="table-responsive" style="text-align: center;">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Address</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let prd of StoreList | async; index as i">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{prd.StoreName}}</td>
+              <td>{{prd.Address}}</td>
+              <td><button type="button" class="btn1" matTooltip="Click Edit Button" (click)='StoreDetailsToEdit(prd.StoreId)'>Edit</button>
+                |
+                <button type="button" class="btn1" matTooltip="Click Delete Button" (click)="DeleteStore(prd.StoreId)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+          </table>
+        </div>
+      </div>
+      </div>
+    </form>
